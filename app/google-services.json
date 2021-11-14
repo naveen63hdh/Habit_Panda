@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1027724892127",
+    "project_id": "habitpanda-95cfc",
+    "storage_bucket": "habitpanda-95cfc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027724892127:android:52df6f739f8a470ce2166a",
+        "android_client_info": {
+          "package_name": "com.example.habitpanda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027724892127-i0p0sccec6kjp4ce750ceg2absmtu3ts.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.habitpanda",
+            "certificate_hash": "10006afde752b0aa0cf860c3db0b251061511c44"
+          }
+        },
+        {
+          "client_id": "1027724892127-a55acc44ra2lk9jnamuog4s1m2vts9i6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5QRcFhS2q5M17JV622kKC9rod41PWT8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027724892127-a55acc44ra2lk9jnamuog4s1m2vts9i6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

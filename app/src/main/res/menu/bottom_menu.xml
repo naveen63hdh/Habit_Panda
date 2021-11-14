@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/my_habit"
+        android:icon="@drawable/ic_notifications"
+        android:title="My Habit"
+        />
+    <item android:id="@+id/my_task"
+        android:icon="@drawable/ic_task"
+        android:title="My Task"
+        />
+    <item android:id="@+id/profile"
+        android:icon="@drawable/ic_account"
+        android:title="Profile"
+        />
+</menu>
