@@ -6,12 +6,15 @@
     tools:context=".home.fragment.MyHabitFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:textColor="@color/black"
-    android:gravity="center"
-    android:text="Welcome to My Habit Fragment" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contentRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="18dp"
+        android:background="@color/white"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="10dp"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_habit"

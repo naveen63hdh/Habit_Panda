@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/habit_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/level_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/level_img"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/habit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Habit Name"
+                android:textColor="@color/grey"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/habit_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Habit Description"
+                android:textColor="@color/grey"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/days_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/mon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="M "
+                    android:textColor="@color/grey"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Tu "
+                    android:textColor="@color/grey"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/wed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" W "
+                    android:textColor="@color/grey"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/thur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Th "
+                    android:textColor="@color/grey"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/fri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" F "
+                    android:textColor="@color/grey"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/sat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Sa "
+                    android:textColor="@color/grey"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/sun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Su "
+                    android:textColor="@color/grey"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/action_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/habit_card"
+        android:backgroundTint="@color/dark_green"
+        android:text="Mark as Complete"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
