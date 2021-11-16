@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbarStyle="outsideOverlay">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp"
+        tools:context=".add_habit.AddHabitActivity">
+
+        <EditText
+            android:id="@+id/habit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/editext_background"
+            android:hint="Habit Name"
+            android:inputType="text"
+            android:padding="15dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey" />
+
+        <EditText
+            android:id="@+id/habit_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/editext_background"
+            android:hint="Habit Description"
+            android:padding="15dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Habit Type :"
+                android:textColor="@color/dark_green"
+                android:textSize="18sp" />
+
+            <RadioGroup
+                android:id="@+id/habit_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/manual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Manual"
+                    android:textColor="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Timer"
+                    android:textColor="@color/black" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/timerLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:paddingHorizontal="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default Timer"
+                android:textColor="@color/dark_green"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/timer_hh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/editext_background"
+                android:hint="HH"
+                android:inputType="number"
+                android:maxLength="2"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text=":"
+                android:textColor="@color/dark_green"
+                android:textSize="18sp" />
+
+
+            <EditText
+                android:id="@+id/timer_mm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/editext_background"
+                android:hint="MM"
+                android:inputType="number"
+                android:maxLength="2"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text=":"
+                android:textColor="@color/dark_green"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/timer_ss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/editext_background"
+                android:hint="SS"
+                android:inputType="number"
+                android:maxLength="2"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/endTimeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="5dp"
+            android:text="Habit End Time : 66 days"
+            android:textColor="@color/dark_green"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/endTimeSeekbar"
+            style="@style/mySeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:max="143"
+            android:min="7"
+            android:progress="66" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="5dp"
+            android:text="Days"
+            android:textColor="@color/dark_green"
+            android:textSize="18sp" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:columnCount="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:text="Monday"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_vertical|fill_horizontal"
+                />
+
+            <CheckBox
+                android:id="@+id/habit_mon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:textColor="@color/grey"
+                android:text="Tuesday"
+                android:layout_gravity="center_vertical|fill_horizontal"
+                />
+
+            <CheckBox
+                android:id="@+id/habit_tues"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:text="Wednesday"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_vertical|fill_horizontal"
+                />
+
+            <CheckBox
+                android:id="@+id/habit_wed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:text="Thursday"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_vertical|fill_horizontal"
+                />
+
+            <CheckBox
+                android:id="@+id/habit_thurs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:text="Friday"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_vertical|fill_horizontal"
+                />
+
+            <CheckBox
+                android:id="@+id/habit_fri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:text="Saturday"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_vertical|fill_horizontal"
+                />
+
+            <CheckBox
+                android:id="@+id/habit_sat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:text="Sunday"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_vertical|fill_horizontal"
+                />
+
+            <CheckBox
+                android:id="@+id/habit_sun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/list_padding_vertical_small"
+                android:layout_gravity="center_vertical" />
+
+        </GridLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signin_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pass_sign_in"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="35dp"
+            android:onClick="createHabit"
+            android:background="@drawable/btn_background"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="20dp"
+            android:text="Create Habit"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+</ScrollView>

@@ -28,4 +28,12 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="mySeekBar">
+        <item name="android:progressBackgroundTint">@color/grey</item>
+        <item name="android:progressTint">@color/dark_green</item>
+        <item name="android:thumbTint">@color/dark_green</item>
+    </style>
+
+    <style name="MyDatePicker"></style>
 </resources>

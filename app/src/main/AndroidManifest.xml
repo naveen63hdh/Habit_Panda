@@ -10,10 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HabitPanda">
         <activity
+            android:name=".add_task.AddTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".add_habit.AddHabitActivity"
+            android:exported="false" />
+        <activity
             android:name=".ForgetPasswordActivity"
             android:exported="true"
-            android:theme="@style/Theme.HabitPanda"
-            />
+            android:theme="@style/Theme.HabitPanda" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"
@@ -21,8 +26,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/Theme.HabitPanda.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.HabitPanda.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,10 +37,7 @@
         <activity
             android:name=".home.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.HabitPanda"
-            >
-
-        </activity>
+            android:theme="@style/Theme.HabitPanda" />
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ import com.example.habitpanda.R;
 import com.example.habitpanda.home.fragment.MyHabitFragment;
 import com.example.habitpanda.home.fragment.MyTaskFragment;
 import com.example.habitpanda.home.fragment.ProfileFragment;
+import com.example.habitpanda.home.fragment.TodayFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setSelectedItemId(R.id.my_habit);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new MyHabitFragment()).commit();
+        bottomNavigationView.setSelectedItemId(R.id.today);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TodayFragment()).commit();
         bottomNavigationView.setOnItemSelectedListener(this);
         mAuth = FirebaseAuth.getInstance();
     }
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.today:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TodayFragment()).commit();
+                return true;
             case R.id.profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ProfileFragment()).commit();
                 return true;
