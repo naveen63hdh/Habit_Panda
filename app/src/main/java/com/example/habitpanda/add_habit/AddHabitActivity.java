@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,7 +28,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class AddHabitActivity extends AppCompatActivity {
     SeekBar endTimeSeek;
@@ -132,6 +137,9 @@ public class AddHabitActivity extends AppCompatActivity {
         sat = satCB.isChecked();
         sun = sunCB.isChecked();
 
+        HashMap<String,HashMap<String, Boolean>> calendarDate = createDates();
+        Log.i("Dates", String.valueOf(calendarDate));
+
         HashMap<String,Object> habit = new HashMap<>();
 //        habit.put()
 
@@ -140,6 +148,7 @@ public class AddHabitActivity extends AppCompatActivity {
         habit.put("type",habitType);
         if (habitType == 1)
             habit.put("time",time);
+        habit.put("Calendar",calendarDate);
         habit.put("days",days);
         habit.put("mon",mon);
         habit.put("tue",tue);
@@ -163,5 +172,62 @@ public class AddHabitActivity extends AppCompatActivity {
                 Toast.makeText(AddHabitActivity.this, "Please check your network connectivity and try again later", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private HashMap<String, HashMap<String, Boolean>> createDates() {
+        HashMap<String,HashMap<String, Boolean>> calendarDate = new HashMap<>();
+        HashMap<String,Boolean> isCompleted = new HashMap<>();
+        isCompleted.put("isCompleted",false);
+        Calendar c = Calendar.getInstance();
+        //c.setTime(date);
+        int count = 0;
+
+        while(count<days) {
+            int day = c.get(Calendar.DAY_OF_WEEK);
+            if (isSelectedDay(day)) {
+                Date date = c.getTime();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd", Locale.US);
+                String myDate = sdf.format(date);
+                calendarDate.put(myDate, isCompleted);
+                count++;
+            }
+            c.add(Calendar.DAY_OF_YEAR,1);
+        }
+
+        return calendarDate;
+    }
+
+    private boolean isSelectedDay(int day) {
+        switch (day) {
+            case 1:
+                if (sun)
+                    return true;
+                break;
+            case 2:
+                if (mon)
+                    return true;
+                break;
+            case 3:
+                if (tue)
+                    return true;
+                break;
+            case 4:
+                if (wed)
+                    return true;
+                break;
+            case 5:
+                if (thur)
+                    return true;
+                break;
+            case 6:
+                if (fri)
+                    return true;
+                break;
+            case 7:
+                if (sat)
+                    return true;
+                break;
+        }
+        return false;
     }
 }
