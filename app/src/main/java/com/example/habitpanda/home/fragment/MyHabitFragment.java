@@ -1,5 +1,6 @@
 package com.example.habitpanda.home.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -36,6 +37,7 @@ public class MyHabitFragment extends Fragment {
     FloatingActionButton addBtn;
 
     RecyclerView habitRecycler;
+    ProgressDialog progressDialog;
 
     public MyHabitFragment() {
         // Required empty public constructor
@@ -60,9 +62,9 @@ public class MyHabitFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
         habitRef = FirebaseDatabase.getInstance().getReference("Users").child(auth.getUid()).child("Habit");
-        habitList = new ArrayList<>();
 
-        populateDataset();
+
+        //populateDataset();
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +110,7 @@ public class MyHabitFragment extends Fragment {
 
                 MyHabitAdapter habitAdapter = new MyHabitAdapter(habitList,getContext());
                 habitRecycler.setAdapter(habitAdapter);
+                progressDialog.dismiss();
             }
 
             @Override
@@ -122,5 +125,8 @@ public class MyHabitFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.i("LOG_TAG","Resume");
+        progressDialog = ProgressDialog.show(getContext(),"Please wait","Loading your habits");
+        habitList = new ArrayList<>();
+        populateDataset();
     }
 }

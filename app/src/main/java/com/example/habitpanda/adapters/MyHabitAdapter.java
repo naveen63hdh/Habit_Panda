@@ -1,6 +1,7 @@
 package com.example.habitpanda.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,25 +46,28 @@ public class MyHabitAdapter extends RecyclerView.Adapter<MyHabitAdapter.HabitVie
     public void onBindViewHolder(@NonNull HabitViewHolder holder, int position) {
         holder.nameTxt.setText(habitArrayList.get(position).getHabitName());
         holder.descTxt.setText(habitArrayList.get(position).getHabitDesc());
-        if (habitArrayList.get(position).getHabitType()==0)
+        Log.i("HABIT_TYPE",""+habitArrayList.get(position).getHabitType());
+        if (habitArrayList.get(position).getHabitType()==0) {
+
             holder.actionBtn.setText("Mark as Complete");
-        else
+        } else {
             holder.actionBtn.setText("Start Timer");
+        }
 
         if (habitArrayList.get(position).isMon())
-            holder.mon.setTextColor(context.getResources().getColor(R.color.dark_green));
+            holder.mon.setTextColor(context.getResources().getColor(R.color.green));
         if (habitArrayList.get(position).isTue())
-            holder.tues.setTextColor(context.getResources().getColor(R.color.dark_green));
+            holder.tues.setTextColor(context.getResources().getColor(R.color.green));
         if (habitArrayList.get(position).isWed())
-            holder.wed.setTextColor(context.getResources().getColor(R.color.dark_green));
+            holder.wed.setTextColor(context.getResources().getColor(R.color.green));
         if (habitArrayList.get(position).isThur())
-            holder.thur.setTextColor(context.getResources().getColor(R.color.dark_green));
+            holder.thur.setTextColor(context.getResources().getColor(R.color.green));
         if (habitArrayList.get(position).isFri())
-            holder.fri.setTextColor(context.getResources().getColor(R.color.dark_green));
+            holder.fri.setTextColor(context.getResources().getColor(R.color.green));
         if (habitArrayList.get(position).isSat())
-            holder.sat.setTextColor(context.getResources().getColor(R.color.dark_green));
+            holder.sat.setTextColor(context.getResources().getColor(R.color.green));
         if (habitArrayList.get(position).isSat())
-            holder.sun.setTextColor(context.getResources().getColor(R.color.dark_green));
+            holder.sun.setTextColor(context.getResources().getColor(R.color.green));
 
     }
 

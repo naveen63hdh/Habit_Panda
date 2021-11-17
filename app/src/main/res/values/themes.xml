@@ -35,5 +35,4 @@
         <item name="android:thumbTint">@color/dark_green</item>
     </style>
 
-    <style name="MyDatePicker"></style>
 </resources>
