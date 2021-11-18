@@ -17,14 +17,20 @@ import android.widget.Toast;
 
 import com.example.habitpanda.R;
 import com.example.habitpanda.add_habit.AddHabitActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -33,6 +39,8 @@ public class AddTaskActivity extends AppCompatActivity {
     private int mYear, mMonth, mDay;
 
     String taskName,taskDesc,taskDate;
+
+    boolean dateCompleted = false, habitCompleted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +84,36 @@ public class AddTaskActivity extends AppCompatActivity {
         ProgressDialog progressDialog = ProgressDialog.show(this,"Please Wait","Creating your task");
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference habitRef = database.getReference().child("Users").child(auth.getUid()).child("Task").push();
+
         taskName = taskTxt.getText().toString();
         taskDesc = descTxt.getText().toString();
         taskDate = dateTxt.getText().toString();
+        String encodedDate = taskDate;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        try {
+            Date date = sdf.parse(taskDate);
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy_MM_dd",Locale.US);
+            encodedDate = sdf1.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        DatabaseReference habitRef = database.getReference().child("Users").child(auth.getUid()).child("Task").push();
+        String key = habitRef.getKey();
+        database.getReference().child("Users").child(auth.getUid()).child("Task Date").child(encodedDate).child(key).child("name").setValue(taskName).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                dateCompleted = true;
+                if (habitCompleted) {
+                    progressDialog.dismiss();
+                    Toast.makeText(AddTaskActivity.this, "Task Created Successfully", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
+            }
+        });
+
 
         HashMap<String,Object> task = new HashMap<>();
         task.put("name",taskName);
@@ -89,9 +123,12 @@ public class AddTaskActivity extends AppCompatActivity {
         habitRef.updateChildren(task).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                progressDialog.dismiss();
-                Toast.makeText(AddTaskActivity.this, "Task Created Successfully", Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                habitCompleted  = true;
+                if (dateCompleted = true) {
+                    progressDialog.dismiss();
+                    Toast.makeText(AddTaskActivity.this, "Task Created Successfully", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

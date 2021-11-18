@@ -28,23 +28,27 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class AddHabitActivity extends AppCompatActivity {
     SeekBar endTimeSeek;
     TextView endTimeTxt;
     RadioGroup typeGrp;
     LinearLayout timerLayout;
-    EditText nameTxt,descTxt,hhTxt,mmTxt,ssTxt;
-    CheckBox monCB,tueCB,wedCB,thurCB,friCB,satCB,sunCB;
+    EditText nameTxt, descTxt, hhTxt, mmTxt, ssTxt;
+    CheckBox monCB, tueCB, wedCB, thurCB, friCB, satCB, sunCB;
 
     String habitName, habitDesc, time;
-    int habitType, days,hh,mm,ss;
-    boolean mon,tue,wed,thur,fri,sat,sun;
+    int habitType, days, hh, mm, ss;
+    boolean mon, tue, wed, thur, fri, sat, sun;
+
+    boolean dateCompleted = false, habitCompleted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,7 @@ public class AddHabitActivity extends AppCompatActivity {
         endTimeSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                endTimeTxt.setText("Habit End Time : "+progress+" days");
+                endTimeTxt.setText("Habit End Time : " + progress + " days");
             }
 
             @Override
@@ -108,12 +112,14 @@ public class AddHabitActivity extends AppCompatActivity {
     }
 
     public void createHabit(View view) {
-        ProgressDialog progressDialog = ProgressDialog.show(this,"Please Wait","Creating your task");
+        ProgressDialog progressDialog = ProgressDialog.show(this, "Please Wait", "Creating your task");
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference habitRef = database.getReference().child("Users").child(auth.getUid()).child("Habit").push();
+        String key = habitRef.getKey();
         habitName = nameTxt.getText().toString();
         habitDesc = descTxt.getText().toString();
+
         switch (typeGrp.getCheckedRadioButtonId()) {
             case R.id.manual:
                 habitType = 0;
@@ -126,7 +132,7 @@ public class AddHabitActivity extends AppCompatActivity {
             hh = Integer.parseInt(hhTxt.getText().toString());
             mm = Integer.parseInt(mmTxt.getText().toString());
             ss = Integer.parseInt(ssTxt.getText().toString());
-            time = hh+":"+mm+":"+ss;
+            time = hh + ":" + mm + ":" + ss;
         }
         days = endTimeSeek.getProgress();
         mon = monCB.isChecked();
@@ -137,26 +143,40 @@ public class AddHabitActivity extends AppCompatActivity {
         sat = satCB.isChecked();
         sun = sunCB.isChecked();
 
-        HashMap<String,HashMap<String, Boolean>> calendarDate = createDates();
-        Log.i("Dates", String.valueOf(calendarDate));
 
-        HashMap<String,Object> habit = new HashMap<>();
+        DatabaseReference habitDateRef = database.getReference().child("Users").child(auth.getUid()).child("HabitDate");
+        Calendar c = Calendar.getInstance();
+        int count = 0;
+
+        while (count < days) {
+            int day = c.get(Calendar.DAY_OF_WEEK);
+            if (isSelectedDay(day)) {
+                Date date = c.getTime();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd", Locale.US);
+                String myDate = sdf.format(date);
+                habitDateRef.child(myDate).child(key).child("is_completed").setValue(false);
+                count++;
+            }
+            c.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        HashMap<String, Object> habit = new HashMap<>();
 //        habit.put()
 
-        habit.put("name",habitName);
-        habit.put("desc",habitDesc);
-        habit.put("type",habitType);
+        habit.put("name", habitName);
+        habit.put("desc", habitDesc);
+        habit.put("type", habitType);
         if (habitType == 1)
-            habit.put("time",time);
-        habit.put("Calendar",calendarDate);
-        habit.put("days",days);
-        habit.put("mon",mon);
-        habit.put("tue",tue);
-        habit.put("wed",wed);
-        habit.put("thur",thur);
-        habit.put("fri",fri);
-        habit.put("sat",sat);
-        habit.put("sun",sun);
+            habit.put("time", time);
+//        habit.put("Calendar",calendarDate);
+        habit.put("days", days);
+        habit.put("mon", mon);
+        habit.put("tue", tue);
+        habit.put("wed", wed);
+        habit.put("thur", thur);
+        habit.put("fri", fri);
+        habit.put("sat", sat);
+        habit.put("sun", sun);
 
         habitRef.updateChildren(habit).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -172,29 +192,6 @@ public class AddHabitActivity extends AppCompatActivity {
                 Toast.makeText(AddHabitActivity.this, "Please check your network connectivity and try again later", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private HashMap<String, HashMap<String, Boolean>> createDates() {
-        HashMap<String,HashMap<String, Boolean>> calendarDate = new HashMap<>();
-        HashMap<String,Boolean> isCompleted = new HashMap<>();
-        isCompleted.put("isCompleted",false);
-        Calendar c = Calendar.getInstance();
-        //c.setTime(date);
-        int count = 0;
-
-        while(count<days) {
-            int day = c.get(Calendar.DAY_OF_WEEK);
-            if (isSelectedDay(day)) {
-                Date date = c.getTime();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd", Locale.US);
-                String myDate = sdf.format(date);
-                calendarDate.put(myDate, isCompleted);
-                count++;
-            }
-            c.add(Calendar.DAY_OF_YEAR,1);
-        }
-
-        return calendarDate;
     }
 
     private boolean isSelectedDay(int day) {

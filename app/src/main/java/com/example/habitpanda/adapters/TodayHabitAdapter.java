@@ -17,12 +17,12 @@ import com.example.habitpanda.models.Habit;
 
 import java.util.ArrayList;
 
-public class MyHabitAdapter extends RecyclerView.Adapter<MyHabitAdapter.HabitViewHolder>{
+public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.HabitViewHolder> {
 
     ArrayList<Habit> habitArrayList;
     Context context;
 
-    public MyHabitAdapter(ArrayList<Habit> habitArrayList, Context context) {
+    public TodayHabitAdapter(ArrayList<Habit> habitArrayList, Context context) {
         this.habitArrayList = habitArrayList;
         this.context = context;
     }
@@ -38,8 +38,6 @@ public class MyHabitAdapter extends RecyclerView.Adapter<MyHabitAdapter.HabitVie
 
             }
         });
-        Button btn = view.findViewById(R.id.action_btn);
-        btn.setVisibility(View.GONE);
         HabitViewHolder viewHolder = new HabitViewHolder(view);
         return viewHolder;
     }
@@ -79,7 +77,6 @@ public class MyHabitAdapter extends RecyclerView.Adapter<MyHabitAdapter.HabitVie
     }
 
     static class HabitViewHolder extends RecyclerView.ViewHolder {
-
         ImageView levelImg;
         Button actionBtn;
         TextView mon,tues,wed,thur,fri,sat,sun,nameTxt,descTxt;

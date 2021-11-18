@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".home.fragment.TodayFragment">
 
-    <TextView
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        app:tabBackground="@drawable/today_tab_color_selector"
+        app:tabIndicator="@color/black"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:text="Welcome to Today Fragment" />
+        android:layout_height="wrap_content" />
 
-</FrameLayout>
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="2dp"-->
+<!--        android:background="@color/black" />-->
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/container_pager"
+        android:layout_width="match_parent"
+        android:layout_below="@id/tab_layout"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

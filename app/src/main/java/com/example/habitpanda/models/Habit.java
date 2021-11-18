@@ -4,7 +4,7 @@ public class Habit {
 
     String id,habitName, habitDesc, time;
     int habitType, days;
-    boolean mon,tue,wed,thur,fri,sat,sun;
+    boolean mon,tue,wed,thur,fri,sat,sun,is_completed;
 
     public Habit(String id, String habitName, String habitDesc, String time, int habitType, int days, boolean mon, boolean tue, boolean wed, boolean thur, boolean fri, boolean sat, boolean sun) {
         this.id = id;
@@ -68,6 +68,14 @@ public class Habit {
 
     public int getDays() {
         return days;
+    }
+
+    public boolean isCompleted() {
+        return is_completed;
+    }
+
+    public void setIsCompleted(boolean is_completed) {
+        this.is_completed = is_completed;
     }
 
     public void setDays(int days) {
