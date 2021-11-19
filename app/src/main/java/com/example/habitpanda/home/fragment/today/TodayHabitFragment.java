@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.habitpanda.R;
 import com.example.habitpanda.adapters.TodayHabitAdapter;
@@ -40,6 +42,7 @@ public class TodayHabitFragment extends Fragment {
     String today;
 
     RecyclerView habitRecycler;
+    TextView emptyText;
     ProgressDialog progressDialog;
     long size = 0;
 
@@ -62,6 +65,7 @@ public class TodayHabitFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         habitRecycler = view.findViewById(R.id.contentRecycler);
+        emptyText = view.findViewById(R.id.empty);
 
         habitRecycler.setHasFixedSize(true);
         habitRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -84,6 +88,15 @@ public class TodayHabitFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 size = snapshot.getChildrenCount();
+
+                if (size<=0) {
+                    progressDialog.dismiss();
+                    emptyText.setVisibility(View.VISIBLE);
+                    habitRecycler.setVisibility(View.GONE);
+                } else {
+                    emptyText.setVisibility(View.GONE);
+                    habitRecycler.setVisibility(View.VISIBLE);
+                }
                 for (DataSnapshot dateSnap : snapshot.getChildren()) {
                     Log.i("HABIT_ID", dateSnap.getKey());
                     Habit myHabit = new Habit();

@@ -112,7 +112,7 @@ public class AddHabitActivity extends AppCompatActivity {
     }
 
     public void createHabit(View view) {
-        ProgressDialog progressDialog = ProgressDialog.show(this, "Please Wait", "Creating your task");
+        ProgressDialog progressDialog = ProgressDialog.show(this, "Please Wait", "Creating your Habit");
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference habitRef = database.getReference().child("Users").child(auth.getUid()).child("Habit").push();

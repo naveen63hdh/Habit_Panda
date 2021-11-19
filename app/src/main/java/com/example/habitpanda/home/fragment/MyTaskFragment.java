@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.habitpanda.R;
 import com.example.habitpanda.adapters.MyTaskAdapter;
@@ -38,6 +39,7 @@ public class MyTaskFragment extends Fragment {
 
     FloatingActionButton addBtn;
     RecyclerView taskRecycler;
+    TextView emptyText;
     ProgressDialog progressDialog;
     public MyTaskFragment() {
         // Required empty public constructor
@@ -56,6 +58,7 @@ public class MyTaskFragment extends Fragment {
         View myView =  inflater.inflate(R.layout.fragment_my_task, container, false);
         addBtn = myView.findViewById(R.id.add_task);
         taskRecycler = myView.findViewById(R.id.contentRecycler);
+        emptyText = myView.findViewById(R.id.empty);
 
         taskRecycler.setHasFixedSize(true);
         taskRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -97,6 +100,14 @@ public class MyTaskFragment extends Fragment {
                 MyTaskAdapter adapter = new MyTaskAdapter(taskList,getContext());
                 taskRecycler.setAdapter(adapter);
                 progressDialog.dismiss();
+
+                if (taskList.size()<=0) {
+                    emptyText.setVisibility(View.VISIBLE);
+                    taskRecycler.setVisibility(View.GONE);
+                } else {
+                    emptyText.setVisibility(View.GONE);
+                    taskRecycler.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

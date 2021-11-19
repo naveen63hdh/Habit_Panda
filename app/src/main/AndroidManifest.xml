@@ -10,9 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HabitPanda">
         <activity
+            android:theme="@style/Theme.HabitPanda"
             android:name=".add_task.AddTaskActivity"
             android:exported="false" />
         <activity
+            android:theme="@style/Theme.HabitPanda"
             android:name=".add_habit.AddHabitActivity"
             android:exported="false" />
         <activity

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.habitpanda.R;
 import com.example.habitpanda.adapters.MyHabitAdapter;
@@ -37,6 +38,7 @@ public class MyHabitFragment extends Fragment {
     FloatingActionButton addBtn;
 
     RecyclerView habitRecycler;
+    TextView emptyText;
     ProgressDialog progressDialog;
 
     public MyHabitFragment() {
@@ -55,6 +57,7 @@ public class MyHabitFragment extends Fragment {
         View myView = inflater.inflate(R.layout.fragment_my_habit, container, false);
         addBtn = myView.findViewById(R.id.add_habit);
         habitRecycler = myView.findViewById(R.id.contentRecycler);
+        emptyText = myView.findViewById(R.id.empty);
 
         habitRecycler.setHasFixedSize(true);
         habitRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -80,7 +83,7 @@ public class MyHabitFragment extends Fragment {
         habitRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnap : snapshot.getChildren()) {
+                for (DataSnapshot dataSnap : snapshot.getChildren()) {
 
                     String key = dataSnap.getKey();
 //                    for (DataSnapshot dataSnap : habitSnap.getChildren())
@@ -91,7 +94,7 @@ public class MyHabitFragment extends Fragment {
                     myHabit.setHabitName(dataSnap.child("name").getValue().toString());
                     myHabit.setHabitDesc(dataSnap.child("desc").getValue().toString());
                     myHabit.setHabitType(Integer.parseInt(dataSnap.child("type").getValue().toString()));
-                    if (myHabit.getHabitType()==1)
+                    if (myHabit.getHabitType() == 1)
                         myHabit.setTime(dataSnap.child("time").getValue().toString());
                     myHabit.setDays(Integer.parseInt(dataSnap.child("days").getValue().toString()));
                     myHabit.setMon(Boolean.parseBoolean(dataSnap.child("mon").getValue().toString()));
@@ -104,13 +107,20 @@ public class MyHabitFragment extends Fragment {
                     habitList.add(myHabit);
                 }
 
-                for (Habit myHabit:habitList) {
-                    Log.i("HABIT_DATA",myHabit.toString());
+                for (Habit myHabit : habitList) {
+                    Log.i("HABIT_DATA", myHabit.toString());
                 }
 
-                MyHabitAdapter habitAdapter = new MyHabitAdapter(habitList,getContext());
+                MyHabitAdapter habitAdapter = new MyHabitAdapter(habitList, getContext());
                 habitRecycler.setAdapter(habitAdapter);
                 progressDialog.dismiss();
+                if (habitList.size() <= 0) {
+                    emptyText.setVisibility(View.VISIBLE);
+                    habitRecycler.setVisibility(View.GONE);
+                } else {
+                    emptyText.setVisibility(View.GONE);
+                    habitRecycler.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -124,8 +134,8 @@ public class MyHabitFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("LOG_TAG","Resume");
-        progressDialog = ProgressDialog.show(getContext(),"Please wait","Loading your habits");
+        Log.i("LOG_TAG", "Resume");
+        progressDialog = ProgressDialog.show(getContext(), "Please wait", "Loading your habits");
         habitList = new ArrayList<>();
         populateDataset();
     }

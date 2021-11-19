@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".home.fragment.MyTaskFragment">
 
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/grey"
+        android:text= "No Task Found" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contentRecycler"
         android:layout_width="match_parent"

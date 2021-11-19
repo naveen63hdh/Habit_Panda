@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.habitpanda.R;
 import com.example.habitpanda.adapters.TodayHabitAdapter;
@@ -42,6 +43,7 @@ public class TodayTaskFragment extends Fragment {
     String today;
 
     RecyclerView taskRecycler;
+    TextView emptyText;
     ProgressDialog progressDialog;
     long size = 0;
 
@@ -63,6 +65,7 @@ public class TodayTaskFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         taskRecycler = view.findViewById(R.id.contentRecycler);
+        emptyText = view.findViewById(R.id.empty);
 
         taskRecycler.setHasFixedSize(true);
         taskRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -94,6 +97,15 @@ public class TodayTaskFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 size = snapshot.getChildrenCount();
+                if (size<=0) {
+                    progressDialog.dismiss();
+                    emptyText.setVisibility(View.VISIBLE);
+                    taskRecycler.setVisibility(View.GONE);
+                } else {
+                    emptyText.setVisibility(View.GONE);
+                    taskRecycler.setVisibility(View.VISIBLE);
+                }
+
                 for (DataSnapshot dateSnap : snapshot.getChildren()) {
                     String key = dateSnap.getKey();
                     Task myTask = new Task();
