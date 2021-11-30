@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,8 @@ import com.example.habitpanda.R;
 import com.example.habitpanda.home.MainActivity;
 import com.example.habitpanda.models.Habit;
 import com.example.habitpanda.service.CountDownTimerService;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -41,6 +41,7 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
     NotificationCompat.Builder builder;
     NotificationManager manager;
 
+    DatabaseReference reference;
 
     public TodayHabitAdapter(ArrayList<Habit> habitArrayList, Context context, String uid, String date) {
         this.habitArrayList = habitArrayList;
@@ -70,14 +71,11 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
         holder.descTxt.setText(habitArrayList.get(position).getHabitDesc());
         Log.i("HABIT_TYPE", "" + habitArrayList.get(position).getHabitType());
         if (habitArrayList.get(position).isCompleted()) {
-            holder.timerTxt.setVisibility(View.GONE);
             holder.actionBtn.setText("Completed");
         } else {
             if (habitArrayList.get(position).getHabitType() == 0) {
-                holder.timerTxt.setVisibility(View.GONE);
                 holder.actionBtn.setText("Mark as Complete");
             } else {
-                holder.timerTxt.setVisibility(View.VISIBLE);
                 holder.actionBtn.setText("Start Timer");
             }
         }
@@ -102,8 +100,14 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
             public void onClick(View v) {
 
                 if (habitArrayList.get(holder.getAdapterPosition()).getHabitType() == 0) {
+                    String habitName = habitArrayList.get(holder.getAdapterPosition()).getId();
+                    reference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("HabitDate").child(date).child(habitName).child("is_completed");
+                    reference.setValue(true);
+                    holder.actionBtn.setText("Completed");
 //                    TODO for mark as complete option
                 } else {
+                    if (holder.actionBtn.getText().equals("Stop Timer"))
+                        context.stopService(new Intent(context, CountDownTimerService.class));
                     String timer = habitArrayList.get(holder.getAdapterPosition()).getTime();
 //                    SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss", Locale.US);
 //                    try {
@@ -171,10 +175,14 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
                             //send the intent, start service
                             context.stopService(new Intent(context, CountDownTimerService.class));
                             context.startService(intent);
+//                            holder.actionBtn.setText("Stop Timer");
 
 //                                Start Notification
 
-                            PendingIntent stopIntent = PendingIntent.getService(context,0,intent,0);
+                            Intent intent1 = new Intent(context, CountDownTimerService.class);
+                            intent1.putExtra("stop",true);
+
+                            PendingIntent stopIntent = PendingIntent.getService(context,0,intent1,PendingIntent.FLAG_CANCEL_CURRENT);
 
                             PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
                                     new Intent(context, MainActivity.class), 0);
@@ -184,8 +192,8 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
                                     .setContentTitle(habitArrayList.get(holder.getAdapterPosition()).getHabitName())
                                     .setContentText(hr + ":" + min + ":" + sec)
                                     .setOnlyAlertOnce(true)
-                                    .setContentIntent(contentIntent)
                                     .addAction(R.drawable.ic_close,"Stop Timer",stopIntent)
+                                    .setContentIntent(contentIntent)
                                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
 
@@ -210,12 +218,19 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
                         //This is the part where I get the timer value from the service and I update it every second,
                         //because I send the data from the service every second.
 
+
                         String time = intent.getExtras().getString("countdown");
-                        builder.setContentText(time);
-                        manager.notify(100, builder.build());
+                        if (time.equals("stop")) {
+//                            Toast.makeText(context, "Stop", Toast.LENGTH_SHORT).show();
+                            manager.cancel(100);
+                            context.stopService(new Intent(context, CountDownTimerService.class));
+                            abortBroadcast();
+                        } else {
+                            builder.setContentText(time);
+                            manager.notify(100, builder.build());
+                        }
                     }
                 };//New boradcasrReceiver with the same name as he one registered earlier
-
 
                 context.registerReceiver(uiUpdated, new IntentFilter("COUNTDOWN_UPDATED"));
 
@@ -251,7 +266,7 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
     static class HabitViewHolder extends RecyclerView.ViewHolder {
         ImageView levelImg;
         Button actionBtn;
-        TextView mon, tues, wed, thur, fri, sat, sun, nameTxt, descTxt, timerTxt;
+        TextView mon, tues, wed, thur, fri, sat, sun, nameTxt, descTxt;
 
         public HabitViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -266,7 +281,6 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
             sun = itemView.findViewById(R.id.sun);
             nameTxt = itemView.findViewById(R.id.habit_name);
             descTxt = itemView.findViewById(R.id.habit_desc);
-            timerTxt = itemView.findViewById(R.id.countDownTimer);
         }
     }
 }

@@ -79,13 +79,10 @@ public class TodayHabitFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         habitReference = database.getReference().child("Users").child(auth.getUid()).child("Habit");
         dateReference = database.getReference().child("Users").child(auth.getUid()).child("HabitDate");
-
-        progressDialog = ProgressDialog.show(getContext(), "Please wait", "Loading Today's habits");
-        habitList = new ArrayList<>();
-        populateDatabase();
-
         return view;
     }
+
+
 
     private void populateDatabase() {
         dateReference.child(today).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -154,6 +151,9 @@ public class TodayHabitFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        progressDialog = ProgressDialog.show(getContext(), "Please wait", "Loading Today's habits");
+        habitList = new ArrayList<>();
+        populateDatabase();
     }
 
 }

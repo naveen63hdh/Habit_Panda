@@ -47,77 +47,80 @@ public class CountDownTimerService extends Service {
         super.onStartCommand(intent, flags, startId);
 
         //Reveive intent here
-
-        if (intent.getAction()!= null) {
-            if (intent.getAction().equals("Stop Timer")) {
-                Intent i = new Intent("COUNTDOWN_UPDATED");
-                //data added to the intent, name of the data, and the data itself
-                i.putExtra("countdown","stop");
-
-                //send intent back to the activity
-                sendBroadcast(i);
-            }
-
-        }
         Bundle bundle = intent.getExtras();
-        TIME_LIMIT =  bundle.getLong("Sum_milliseconds");
+        boolean stop = intent.getBooleanExtra("stop",false);
+        if(stop) {
+            //create intent
+            Intent i = new Intent("COUNTDOWN_UPDATED");
+            //data added to the intent, name of the data, and the data itself
+            i.putExtra("countdown","stop");
 
-        uid = intent.getStringExtra("uid");
-        habitCode = intent.getStringExtra("code");
-        habitName = intent.getStringExtra("name");
-        date = intent.getStringExtra("date");
+            //send intent back to the activity
+            sendBroadcast(i);
+            stopSelf();
+            Count.cancel();
+            return START_NOT_STICKY;
+        } else {
+            TIME_LIMIT = bundle.getLong("Sum_milliseconds");
 
-        reference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("HabitDate").child(date).child(habitCode).child("is_completed");
+            uid = intent.getStringExtra("uid");
+            habitCode = intent.getStringExtra("code");
+            habitName = intent.getStringExtra("name");
+            date = intent.getStringExtra("date");
 
-        Toast.makeText(CountDownTimerService.this, "Service Started", Toast.LENGTH_LONG).show();
+            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("HabitDate").child(date).child(habitCode).child("is_completed");
 
-        //milisecs in the future, time interval (1 sec)
-        Count = new CountDownTimer(TIME_LIMIT, 1000) {
+            Toast.makeText(CountDownTimerService.this, "Habit Timer Started", Toast.LENGTH_LONG).show();
 
-            public void onTick(long millisUntilFinished) {
-                //converts miliseconds into seconds
-                long seconds = millisUntilFinished / 1000;  //300,000 / 1000 = 300 seconds
-                //just add function that automatically transforms milis to hours and minutes
+            //milisecs in the future, time interval (1 sec)
+            Count = new CountDownTimer(TIME_LIMIT, 1000) {
 
-                String time = String.format("%02d:%02d:%02d",
-                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) -
-                                TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)), // The change is in this line
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+                public void onTick(long millisUntilFinished) {
+                    //converts miliseconds into seconds
+                    long seconds = millisUntilFinished / 1000;  //300,000 / 1000 = 300 seconds
+                    //just add function that automatically transforms milis to hours and minutes
+
+                    String time = String.format("%02d:%02d:%02d",
+                            TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) -
+                                    TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)), // The change is in this line
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
 
 
-                //create intent
-                Intent i = new Intent("COUNTDOWN_UPDATED");
-                //data added to the intent, name of the data, and the data itself
-                i.putExtra("countdown",time);
+                    //create intent
+                    Intent i = new Intent("COUNTDOWN_UPDATED");
+                    //data added to the intent, name of the data, and the data itself
+                    i.putExtra("countdown", time);
 
-                //send intent back to the activity
-                sendBroadcast(i);
-                //coundownTimer.setTitle(millisUntilFinished / 1000);
-            }
+                    //send intent back to the activity
+                    sendBroadcast(i);
+                    //coundownTimer.setTitle(millisUntilFinished / 1000);
+                }
 
-            public void onFinish() {
-                //coundownTimer.setTitle("Sedned!");
-                Intent i = new Intent("COUNTDOWN_UPDATED");
-                i.putExtra("countdown","Sent!");
-                sendBroadcast(i);
-                showNotification();
-                //Log.d("COUNTDOWN", "FINISH!");
-                //stop the service from within itself
-                stopSelf();
-            }
-        };
+                public void onFinish() {
+                    //coundownTimer.setTitle("Sedned!");
+                    Intent i = new Intent("COUNTDOWN_UPDATED");
+                    i.putExtra("countdown", "stop");
+                    sendBroadcast(i);
+                    showNotification();
+                    Count.cancel();
 
-        Count.start();
+                    //Log.d("COUNTDOWN", "FINISH!");
+                    //stop the service from within itself
+                    stopSelf();
+                }
+            };
 
+            Count.start();
+        }
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        Toast.makeText(CountDownTimerService.this, "Service Stopped", Toast.LENGTH_LONG).show();
-        Count.cancel();
+//        Toast.makeText(CountDownTimerService.this, "Service Stopped", Toast.LENGTH_LONG).show();
+//        Count.cancel();
 //        Cancel Notification
         super.onDestroy();
     }
@@ -148,6 +151,7 @@ public class CountDownTimerService extends Service {
 
         manager.notify(123, builder.build());
         reference.setValue(true);
+        Toast.makeText(this, "Habit Ended", Toast.LENGTH_SHORT).show();
 
 
     }

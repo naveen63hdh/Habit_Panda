@@ -11,16 +11,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
-        <TextView
-            android:id="@+id/countDownTimer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="00:00:00"
-            android:visibility="gone"
-            android:textColor="@color/grey"
-            android:textSize="16sp" />
-
         <ImageView
             android:id="@+id/level_img"
             android:layout_width="wrap_content"
@@ -33,7 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/level_img"
             android:orientation="vertical"
-            android:layout_toStartOf="@id/countDownTimer"
             android:paddingHorizontal="10dp">
 
             <TextView
