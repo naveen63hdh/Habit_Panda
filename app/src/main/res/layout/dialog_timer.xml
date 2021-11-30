@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="14dp"
+        android:text="Habit Timer"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:background="@color/dark_green"
+        android:backgroundTint="@color/dark_green"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp">
+
+        <LinearLayout
+            android:id="@+id/timerLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:paddingHorizontal="5dp">
+
+            <EditText
+                android:id="@+id/timer_hh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/editext_background"
+                android:hint="HH"
+                android:inputType="number"
+                android:maxLength="2"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text=":"
+                android:textColor="@color/dark_green"
+                android:textSize="18sp" />
+
+
+            <EditText
+                android:id="@+id/timer_mm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/editext_background"
+                android:hint="MM"
+                android:inputType="number"
+                android:maxLength="2"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text=":"
+                android:textColor="@color/dark_green"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/timer_ss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/editext_background"
+                android:hint="SS"
+                android:inputType="number"
+                android:maxLength="2"
+                android:padding="15dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey" />
+
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/timerBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timerLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:paddingVertical="10dp"
+            android:backgroundTint="@color/dark_green"
+            android:text="Set Timer"
+            android:textColor="@color/white" />
+
+
+    </RelativeLayout>
+</LinearLayout>

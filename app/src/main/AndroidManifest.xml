@@ -40,6 +40,8 @@
             android:name=".home.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.HabitPanda" />
+
+        <service android:name=".service.CountDownTimerService"/>
     </application>
 
 </manifest>

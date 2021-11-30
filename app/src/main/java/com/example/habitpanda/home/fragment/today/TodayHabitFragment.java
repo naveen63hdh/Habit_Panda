@@ -39,7 +39,7 @@ public class TodayHabitFragment extends Fragment {
     FirebaseAuth auth;
 
     ArrayList<Habit> habitList;
-    String today;
+    String today,uid;
 
     RecyclerView habitRecycler;
     TextView emptyText;
@@ -63,6 +63,7 @@ public class TodayHabitFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_today_habit, container, false);
 
         auth = FirebaseAuth.getInstance();
+        uid = auth.getUid();
 
         habitRecycler = view.findViewById(R.id.contentRecycler);
         emptyText = view.findViewById(R.id.empty);
@@ -71,7 +72,6 @@ public class TodayHabitFragment extends Fragment {
         habitRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         habitRecycler.setItemAnimator(new DefaultItemAnimator());
 
-
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd", Locale.US);
         today = sdf.format(date);
@@ -79,6 +79,10 @@ public class TodayHabitFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         habitReference = database.getReference().child("Users").child(auth.getUid()).child("Habit");
         dateReference = database.getReference().child("Users").child(auth.getUid()).child("HabitDate");
+
+        progressDialog = ProgressDialog.show(getContext(), "Please wait", "Loading Today's habits");
+        habitList = new ArrayList<>();
+        populateDatabase();
 
         return view;
     }
@@ -123,7 +127,7 @@ public class TodayHabitFragment extends Fragment {
                             habitList.add(myHabit);
                             if (size == habitList.size()) {
                                 Log.i("HABIT_DATA", habitList.toString());
-                                TodayHabitAdapter habitAdapter = new TodayHabitAdapter(habitList, getContext());
+                                TodayHabitAdapter habitAdapter = new TodayHabitAdapter(habitList, getContext(), uid,today);
                                 habitRecycler.setAdapter(habitAdapter);
                                 progressDialog.dismiss();
                             }
@@ -150,9 +154,6 @@ public class TodayHabitFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        progressDialog = ProgressDialog.show(getContext(), "Please wait", "Loading Today's habits");
-        habitList = new ArrayList<>();
-        populateDatabase();
     }
 
 }
