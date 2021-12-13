@@ -45,7 +45,7 @@ public class AddHabitActivity extends AppCompatActivity {
     CheckBox monCB, tueCB, wedCB, thurCB, friCB, satCB, sunCB;
 
     String habitName, habitDesc, time;
-    int habitType, days, hh, mm, ss;
+    int habitType, days, hh=0, mm=0, ss=0;
     boolean mon, tue, wed, thur, fri, sat, sun;
 
     boolean dateCompleted = false, habitCompleted = false;
@@ -129,9 +129,12 @@ public class AddHabitActivity extends AppCompatActivity {
                 break;
         }
         if (habitType == 1) {
-            hh = Integer.parseInt(hhTxt.getText().toString());
-            mm = Integer.parseInt(mmTxt.getText().toString());
-            ss = Integer.parseInt(ssTxt.getText().toString());
+            if (!hhTxt.getText().toString().equals(""))
+                hh = Integer.parseInt(hhTxt.getText().toString());
+            if (!mmTxt.getText().toString().equals(""))
+                mm = Integer.parseInt(mmTxt.getText().toString());
+            if (!ssTxt.getText().toString().equals(""))
+                ss = Integer.parseInt(ssTxt.getText().toString());
             time = hh + ":" + mm + ":" + ss;
         }
         days = endTimeSeek.getProgress();
@@ -148,13 +151,19 @@ public class AddHabitActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         int count = 0;
 
+        HashMap<String,HashMap<String,String>> dateMap = new HashMap<>();
+
+
         while (count < days) {
             int day = c.get(Calendar.DAY_OF_WEEK);
             if (isSelectedDay(day)) {
+                HashMap<String,String> dummyMap = new HashMap<>();
                 Date date = c.getTime();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd", Locale.US);
                 String myDate = sdf.format(date);
                 habitDateRef.child(myDate).child(key).child("is_completed").setValue(false);
+                dummyMap.put("Date",myDate);
+                dateMap.put(myDate,dummyMap);
                 count++;
             }
             c.add(Calendar.DAY_OF_YEAR, 1);
@@ -170,6 +179,7 @@ public class AddHabitActivity extends AppCompatActivity {
             habit.put("time", time);
 //        habit.put("Calendar",calendarDate);
         habit.put("days", days);
+        habit.put("date", dateMap);
         habit.put("mon", mon);
         habit.put("tue", tue);
         habit.put("wed", wed);

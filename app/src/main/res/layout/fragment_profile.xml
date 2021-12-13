@@ -1,16 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".home.fragment.ProfileFragment">
+    android:layout_gravity="center"
+    tools:context=".home.fragment.ProfileFragment"
+    android:layout_height="wrap_content" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:backgroundTint="@color/white" >
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:text="Welcome to Profile Fragment" />
+        android:orientation="vertical"
+        android:paddingHorizontal="30dp"
+        >
+
+    <ImageView
+        android:id="@+id/profile_img_btn"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/circular_image"
+        android:src="@drawable/logo"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="E-mail : "
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/editext_background"
+            android:enabled="false"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress"
+            android:padding="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username : "
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/editext_background"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:inputType="textEmailAddress"
+            android:padding="15dp" />
+
+        <TextView
+            android:id="@+id/changePass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_password"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_green"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Daily Remainder"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/black"
+                android:text="Off"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/remainder_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:theme="@style/ThemeOverlay.MySwitchCompat"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/black"
+                android:text="On"/>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remainder Time : "
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black"/>
+
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <EditText
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/timeBtn"
+            android:background="@drawable/editext_background"
+            android:enabled="false"
+            android:padding="15dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey" />
+
+        <ImageButton
+            android:id="@+id/timeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:src="@drawable/ic_time" />
+
+    </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/saveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/black"
+            android:background="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
+            android:enabled="false"
+            />
+
+</LinearLayout>
 
 </FrameLayout>
+    </androidx.core.widget.NestedScrollView>

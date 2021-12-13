@@ -9,6 +9,7 @@
         <item name="colorSecondary">@color/dark_green</item>
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="tabBackground">@drawable/tab_color_selector</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
@@ -24,8 +25,11 @@
         <item name="colorSecondary">@color/dark_green</item>
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="tabBackground">@drawable/tab_color_selector</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
     </style>
 
@@ -33,6 +37,29 @@
         <item name="android:progressBackgroundTint">@color/grey</item>
         <item name="android:progressTint">@color/dark_green</item>
         <item name="android:thumbTint">@color/dark_green</item>
+    </style>
+
+    <style name="myTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabBackground">@drawable/tab_color_selector</item>
+    </style>
+
+    <style name="headerText" >
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
+    <style name="dateText" >
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="weekText" >
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ThemeOverlay.MySwitchCompat" parent="">
+        <item name="colorControlActivated">@color/dark_green</item>
+        <item name="colorSwitchThumbNormal">#f1f1f1</item>
+        <item name="android:colorForeground">#42221f1f</item>
     </style>
 
 </resources>

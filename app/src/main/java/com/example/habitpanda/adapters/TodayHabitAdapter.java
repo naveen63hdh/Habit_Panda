@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habitpanda.R;
+import com.example.habitpanda.habit.HabitHomeActivity;
 import com.example.habitpanda.home.MainActivity;
 import com.example.habitpanda.models.Habit;
 import com.example.habitpanda.service.CountDownTimerService;
@@ -141,9 +143,18 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
                     timerBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            hr = hhTxt.getText().toString();
-                            min = mmTxt.getText().toString();
-                            sec = ssTxt.getText().toString();
+                            if (!hhTxt.getText().toString().equals(""))
+                                hr = hhTxt.getText().toString();
+                            else
+                                hr = "0";
+                            if (!mmTxt.getText().toString().equals(""))
+                                min = mmTxt.getText().toString();
+                            else
+                                min = "0";
+                            if (!ssTxt.getText().toString().equals(""))
+                                sec = ssTxt.getText().toString();
+                            else
+                                sec= "0";
 
 
                             //parse to long
@@ -238,6 +249,16 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
 //                holder.timerTxt.setText(hr+":"+min+":"+sec);
             }
         });
+
+        holder.habitCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HabitHomeActivity.class);
+                intent.putExtra("code",habitArrayList.get(holder.getAdapterPosition()).getId());
+                intent.putExtra("name",habitArrayList.get(holder.getAdapterPosition()).getHabitName());
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void createChannel(NotificationManager notificationManager) {
@@ -264,6 +285,7 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
     }
 
     static class HabitViewHolder extends RecyclerView.ViewHolder {
+        RelativeLayout habitCard;
         ImageView levelImg;
         Button actionBtn;
         TextView mon, tues, wed, thur, fri, sat, sun, nameTxt, descTxt;
@@ -281,6 +303,7 @@ public class TodayHabitAdapter extends RecyclerView.Adapter<TodayHabitAdapter.Ha
             sun = itemView.findViewById(R.id.sun);
             nameTxt = itemView.findViewById(R.id.habit_name);
             descTxt = itemView.findViewById(R.id.habit_desc);
+            habitCard = itemView.findViewById(R.id.habit_card);
         }
     }
 }

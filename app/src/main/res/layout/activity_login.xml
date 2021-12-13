@@ -24,6 +24,8 @@
         app:tabIndicator="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/myTabLayout"
+        android:background="@drawable/tab_color_selector"
         app:tabBackground="@drawable/tab_color_selector"
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="@color/black" />
