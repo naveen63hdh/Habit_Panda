@@ -25,6 +25,7 @@ import com.example.habitpanda.home.fragment.MyHabitFragment;
 import com.example.habitpanda.home.fragment.MyTaskFragment;
 import com.example.habitpanda.home.fragment.ProfileFragment;
 import com.example.habitpanda.home.fragment.TodayFragment;
+import com.example.habitpanda.profile.ProfileActivity;
 import com.example.habitpanda.reciever.AlarmReceiver;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -134,7 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             AlertDialog alertDialog = builder.create();
             alertDialog.setTitle("Sign Out");
             alertDialog.show();
-
+        } else if (item.getItemId()==R.id.profile) {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -145,9 +148,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             case R.id.today:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TodayFragment()).commit();
                 return true;
-            case R.id.profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ProfileFragment()).commit();
-                return true;
+//            case R.id.profile:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ProfileFragment()).commit();
+//                return true;
             case R.id.my_habit:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new MyHabitFragment()).commit();
                 return true;

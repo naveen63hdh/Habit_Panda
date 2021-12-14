@@ -7,4 +7,9 @@
         android:icon="@drawable/ic_exit"
         app:showAsAction="always"
         />
+    <item android:id="@+id/profile"
+        android:icon="@drawable/ic_account"
+        android:title="Profile"
+        app:showAsAction="ifRoom"
+        />
 </menu>

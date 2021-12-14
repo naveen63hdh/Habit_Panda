@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    tools:context=".home.fragment.ProfileFragment">
+    tools:context=".profile.ProfileActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,7 +25,6 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/circular_image"
                 android:src="@drawable/logo" />
 
             <TextView

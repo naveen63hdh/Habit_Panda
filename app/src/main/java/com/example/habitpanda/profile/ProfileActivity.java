@@ -1,33 +1,27 @@
-package com.example.habitpanda.home.fragment;
-
-import static android.app.Activity.RESULT_OK;
-
-import android.Manifest;
-import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
+package com.example.habitpanda.profile;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -36,10 +30,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.habitpanda.ForgetPasswordActivity;
 import com.example.habitpanda.R;
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,7 +46,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.InputStream;
 import java.util.Calendar;
 
-public class ProfileFragment extends Fragment {
+public class ProfileActivity extends AppCompatActivity {
 
     EditText emailTxt, unameTxt, timeTxt;
     TextView changePass;
@@ -80,27 +71,23 @@ public class ProfileFragment extends Fragment {
     boolean rem_on;
 
     ActivityResultLauncher<Intent> cropActivity;
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
+    
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
 
-        cropActivity = getActivity().registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        cropActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
 
                 CropImage.ActivityResult cropResult = CropImage.getActivityResult(result.getData());
                 if (result.getResultCode() == RESULT_OK) {
                     Uri parseUri = cropResult.getUri();
-                    Toast.makeText(getContext(), parseUri.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, parseUri.toString(), Toast.LENGTH_SHORT).show();
                     try {
-                        InputStream stream = getContext().getContentResolver().openInputStream(parseUri);
+                        InputStream stream = ProfileActivity.this.getContentResolver().openInputStream(parseUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(stream);
-                        profileImg.setBackground(null);
                         profileImg.setImageBitmap(bitmap);
                         //Glide.with(getContext()).load(parseUri).into(profileImg);
                     } catch (Exception e) {
@@ -112,23 +99,16 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-    }
+        emailTxt = findViewById(R.id.email);
+        unameTxt = findViewById(R.id.name);
+        timeTxt = findViewById(R.id.time);
+        changePass = findViewById(R.id.changePass);
+        remainderSwitch = findViewById(R.id.remainder_switch);
+        timeBtn = findViewById(R.id.timeBtn);
+        profileImg = findViewById(R.id.profile_img_btn);
+        saveBtn = findViewById(R.id.saveBtn);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        emailTxt = view.findViewById(R.id.email);
-        unameTxt = view.findViewById(R.id.name);
-        timeTxt = view.findViewById(R.id.time);
-        changePass = view.findViewById(R.id.changePass);
-        remainderSwitch = view.findViewById(R.id.remainder_switch);
-        timeBtn = view.findViewById(R.id.timeBtn);
-        profileImg = view.findViewById(R.id.profile_img_btn);
-        saveBtn = view.findViewById(R.id.saveBtn);
-
-        preferences = getContext().getSharedPreferences("panda_pref", Context.MODE_PRIVATE);
+        preferences = getSharedPreferences("panda_pref", Context.MODE_PRIVATE);
 
         auth = FirebaseAuth.getInstance();
         uid = auth.getUid();
@@ -146,7 +126,7 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Mail Sent to your mail id. Change password from your mail", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ProfileActivity.this, "Mail Sent to your mail id. Change password from your mail", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -156,7 +136,7 @@ public class ProfileFragment extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Upload Image and put values in database
+
             }
         });
 
@@ -169,7 +149,7 @@ public class ProfileFragment extends Fragment {
                     int mHour = c.get(Calendar.HOUR_OF_DAY);
                     int mMin = c.get(Calendar.MINUTE);
 
-                    TimePickerDialog dialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    TimePickerDialog dialog = new TimePickerDialog(ProfileActivity.this, new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             timeTxt.setText(hourOfDay + ":" + minute);
@@ -202,40 +182,43 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        return view;
     }
 
     private void PickImage() {
 
 
-        Intent intent = CropImage.activity().getIntent(getContext());
+        Intent intent = CropImage.activity().getIntent(ProfileActivity.this);
         cropActivity.launch(intent);
 //        CropImage.activity().start(getActivity());
     }
 
     private void requestStoragePermission() {
-        requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+        }
     }
 
     private void requestCameraPermission() {
-        requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        }
     }
 
     private boolean checkStoragePermission() {
-        boolean res = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        boolean res = ContextCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         return res;
     }
 
     private boolean checkCameraPermission() {
-        boolean res1 = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-        boolean res2 = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        boolean res1 = ContextCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        boolean res2 = ContextCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         return res1 && res2;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        progressDialog = ProgressDialog.show(getContext(), "Please Wait", "Loading your profile");
+        progressDialog = ProgressDialog.show(ProfileActivity.this, "Please Wait", "Loading your profile");
         populateDataset();
     }
 
@@ -267,10 +250,4 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//    }
 }
