@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                         setRemainder(hourOfDay,minute);
                         spEditor.putBoolean("rem_on",true);
                         spEditor.putString("time",hourOfDay+":"+minute);
+                        spEditor.putInt("hr",hourOfDay);
+                        spEditor.putInt("min",minute);
                         spEditor.commit();
                     }
                 },mHour,mMin,true);
@@ -116,6 +118,12 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         if (item.getItemId() == R.id.sign_out) {
 
             spEditor.clear();
+            Intent intent = new Intent(this, AlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,intent,0);
+            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+            am.cancel(pendingIntent);
+
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Are you sure you want to Sign out?")
                     .setCancelable(false)
