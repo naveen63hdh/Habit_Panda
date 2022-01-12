@@ -224,6 +224,7 @@ public class HabitHomeActivity extends AppCompatActivity {
 
                 calendarView.addDecorators(new DayViewDecorator() {
                     @Override
+
                     public boolean shouldDecorate(CalendarDay day) {
                         return notCompletedList.contains(day);
                     }

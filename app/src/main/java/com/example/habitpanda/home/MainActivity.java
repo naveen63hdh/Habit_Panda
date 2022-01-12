@@ -117,19 +117,22 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sign_out) {
 
-            spEditor.clear();
-            Intent intent = new Intent(this, AlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,intent,0);
-            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-            am.cancel(pendingIntent);
-
-
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Are you sure you want to Sign out?")
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+
+                            spEditor.clear();
+                            spEditor.commit();
+
+                            Intent aIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,0,aIntent,0);
+                            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                            am.cancel(pendingIntent);
+
+
                             mAuth.signOut();
                             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
                             startActivity(intent);

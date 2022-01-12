@@ -90,6 +90,15 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        emailTxt = findViewById(R.id.email);
+        unameTxt = findViewById(R.id.name);
+        timeTxt = findViewById(R.id.time);
+        changePass = findViewById(R.id.changePass);
+        remainderSwitch = findViewById(R.id.remainder_switch);
+        timeBtn = findViewById(R.id.timeBtn);
+        profileImg = findViewById(R.id.profile_img_btn);
+        saveBtn = findViewById(R.id.saveBtn);
+
         cropActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
@@ -97,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
                 CropImage.ActivityResult cropResult = CropImage.getActivityResult(result.getData());
                 if (result.getResultCode() == RESULT_OK) {
                     parseUri = cropResult.getUri();
-                    Toast.makeText(ProfileActivity.this, parseUri.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ProfileActivity.this, parseUri.toString(), Toast.LENGTH_SHORT).show();
                     try {
                         InputStream stream = ProfileActivity.this.getContentResolver().openInputStream(parseUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(stream);
@@ -112,14 +121,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        emailTxt = findViewById(R.id.email);
-        unameTxt = findViewById(R.id.name);
-        timeTxt = findViewById(R.id.time);
-        changePass = findViewById(R.id.changePass);
-        remainderSwitch = findViewById(R.id.remainder_switch);
-        timeBtn = findViewById(R.id.timeBtn);
-        profileImg = findViewById(R.id.profile_img_btn);
-        saveBtn = findViewById(R.id.saveBtn);
 
         prevTime = timeTxt.getText().toString();
 
@@ -132,6 +133,10 @@ public class ProfileActivity extends AppCompatActivity {
         profileRef = database.getReference().child("Users").child(uid);
 
         storageRef = FirebaseStorage.getInstance().getReference().child("Profile").child(uid);
+
+        progressDialog = ProgressDialog.show(ProfileActivity.this, "Please Wait", "Loading your profile");
+        populateDataset();
+
 
         changePass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,7 +276,7 @@ public class ProfileActivity extends AppCompatActivity {
                 storageRef.child(uid+".png").getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isComplete()) {
+                        if (task.isSuccessful()) {
                             url = task.getResult().toString();
                             dialog.dismiss();
                             updateData();
@@ -329,8 +334,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        progressDialog = ProgressDialog.show(ProfileActivity.this, "Please Wait", "Loading your profile");
-        populateDataset();
     }
 
     private void populateDataset() {
