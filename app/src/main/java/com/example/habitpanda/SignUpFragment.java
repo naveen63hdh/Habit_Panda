@@ -97,8 +97,8 @@ public class SignUpFragment extends Fragment {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("Users").child(uid);
 
-//                    myRef.child(uid).child("Name").setValue(name);
-//                    myRef.child(uid).child("Email").setValue(email);
+                    myRef.child(uid).child("Name").setValue(name);
+                    myRef.child(uid).child("Email").setValue(email);
 
                     // if the user created intent to login activity
                     Intent intent = new Intent(getContext(), LoginActivity.class);
